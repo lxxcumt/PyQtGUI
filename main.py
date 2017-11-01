@@ -1,5 +1,7 @@
 from PyQt4 import QtCore, QtGui
 from label import Ui_MainWindow
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
 import sys
 
 class MyWindow(QtGui.QMainWindow, Ui_MainWindow):
@@ -11,6 +13,13 @@ class MyWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.connect(self.radioButton, QtCore.SIGNAL("clicked()"), self.RadioBtn)
         self.connect(self.radioButton_4, QtCore.SIGNAL("clicked()"), self.RadioBtn_4)
         self.connect(self.dial, QtCore.SIGNAL("valueChanged(int)"), self.DialBtn)
+        self.connect(self.dial, QtCore.SIGNAL("valueChanged(int)"), self.lcdNumber.display)
+        self.connect(self.pushButton_4, QtCore.SIGNAL("clicked()"), self.msg) #self.pushButton_4.clicked.connect(self.msg)
+        self.connect(self.pushButton_5, QtCore.SIGNAL("clicked()"), self.msg_Ques)
+        self.connect(self.pushButton_6, QtCore.SIGNAL("clicked()"), self.msg_warn)
+        self.connect(self.pushButton_7, QtCore.SIGNAL("clicked()"), self.msg_about)
+
+
     def ReadText(self):
         self.textBrowser.append(self.lineEdit.text())
     def RadioBtn(self):
@@ -24,6 +33,17 @@ class MyWindow(QtGui.QMainWindow, Ui_MainWindow):
     def DialBtn(self):
         self.textBrowser.append(str(self.dial.value()))
         print self.dial.value()
+    def msg(self):
+        reply = QMessageBox.information(self, "Title", "information", QMessageBox.Yes|QMessageBox.No)
+        print reply
+    def msg_Ques(self):
+        answer = QMessageBox.question(self, "Question","Yes or No?", "OK","Cancel","I don't know either") #"OK","Cancel","I don't know either"
+        print answer
+    def msg_warn(self):
+        warning = QMessageBox.warning(self, "Warning", "Virus Attack", "OK","Cancel")
+        print warning
+    def msg_about(self):
+        description = QMessageBox.about(self, "Description", "This is a very wonderful APP!!!!")
 
 def main():
     app=QtGui.QApplication(sys.argv)
